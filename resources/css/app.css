@@ -1,0 +1,189 @@
+@import "tailwindcss";
+
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../views/**/*.blade.php";
+@source "../../app/Livewire/**/*.php";
+
+@theme {
+    --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+    --color-brand-50: #eef2ff;
+    --color-brand-100: #e0e7ff;
+    --color-brand-500: #6366f1;
+    --color-brand-600: #4f46e5;
+    --color-brand-700: #4338ca;
+}
+
+@layer base {
+    [x-cloak] {
+        display: none !important;
+    }
+
+    /* Never let any page produce a horizontal scrollbar on the document;
+       wide content scrolls inside its own table/panel containers instead. */
+    html {
+        overflow-x: clip;
+    }
+
+    img,
+    svg,
+    video,
+    canvas,
+    iframe,
+    embed,
+    object {
+        max-width: 100%;
+    }
+}
+
+@layer components {
+    .form-input {
+        @apply block w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 hover:border-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500;
+    }
+
+    .form-select {
+        @apply block w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm transition hover:border-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500;
+    }
+
+    .form-textarea {
+        @apply block w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 hover:border-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500;
+    }
+
+    .form-input-compact {
+        @apply rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 hover:border-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500;
+    }
+
+    .form-select-compact {
+        @apply min-w-0 rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm text-slate-900 shadow-sm transition hover:border-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500;
+    }
+
+    .document-form-section {
+        @apply border-b border-slate-100 p-5 sm:p-6;
+    }
+
+    .surface-card {
+        @apply overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-900/[0.04];
+    }
+
+    .table-head {
+        @apply bg-slate-50/80;
+    }
+
+    .table-row {
+        @apply transition hover:bg-slate-50/60;
+    }
+
+    .table-cell {
+        @apply px-5 py-3.5;
+    }
+
+    .table-head-cell {
+        @apply px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500;
+    }
+
+    .kbd {
+        @apply inline-flex min-w-[1.25rem] items-center justify-center rounded border border-slate-200 bg-slate-50 px-1.5 py-0.5 font-mono text-[11px] font-medium text-slate-500 shadow-sm;
+    }
+
+    .platform-mac .kbd-win {
+        display: none;
+    }
+
+    .platform-win .kbd-mac {
+        display: none;
+    }
+}
+
+@layer utilities {
+    .scrollbar-thin {
+        scrollbar-width: thin;
+        scrollbar-color: rgb(71 85 105 / 0.8) transparent;
+    }
+
+    /* List/report tables live inside bordered panels that used overflow-hidden,
+       which clipped their rightmost columns on small screens. Let those panels
+       scroll horizontally within their own container instead of clipping.
+       Sits in the utilities layer (top specificity tie-breaker) so it beats the
+       element's own overflow-hidden utility. */
+    .border-slate-200:has(table) {
+        overflow-x: auto;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+        border-radius: 9999px;
+        background-color: rgb(71 85 105 / 0.8);
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .main-surface {
+        overflow-x: clip;
+        background-image:
+            radial-gradient(circle at top right, rgb(99 102 241 / 0.06), transparent 28%),
+            radial-gradient(circle at bottom left, rgb(148 163 184 / 0.08), transparent 24%);
+    }
+
+    .app-shell {
+        display: grid;
+        height: 100dvh;
+        grid-template-columns: minmax(0, 1fr);
+        overflow: hidden;
+    }
+
+    .app-sidebar {
+        display: flex;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 40;
+        width: 17rem;
+        min-width: 0;
+        max-width: 17rem;
+        overflow: hidden;
+        transform: translateX(calc(-100% - 1rem));
+        transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), visibility 300ms;
+        visibility: hidden;
+    }
+
+    .app-sidebar.app-sidebar-open {
+        transform: translateX(0);
+        visibility: visible;
+    }
+
+    .app-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        background: rgb(15 23 42 / 0.55);
+        backdrop-filter: blur(2px);
+    }
+
+    @media (min-width: 1024px) {
+        .app-shell {
+            grid-template-columns: 17rem minmax(0, 1fr);
+        }
+
+        .app-sidebar {
+            position: static;
+            z-index: auto;
+            transform: none;
+            visibility: visible;
+            transition: none;
+        }
+
+        .app-sidebar.app-sidebar-open {
+            transform: none;
+        }
+
+        .app-backdrop {
+            display: none !important;
+        }
+    }
+}
